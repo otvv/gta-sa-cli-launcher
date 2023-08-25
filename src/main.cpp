@@ -1,14 +1,30 @@
 #include <iostream> // std::cout, std::cin, std::endl
-#include <string> // std::string
-#include <cstdlib> // std::system
+#include <string>   // std::string
+#include <cstdlib>  // std::system
 
 // command globals
-static const std::string GTA_LOCATION = "start \"\" gta_sa.exe";
-static const std::string MTA_LOCATION = "start \"\" \"MTA San Andreas/Multi Theft Auto.exe\"";
+const std::string GTA_LOCATION = "start \"\" gta_sa.exe";
+const std::string MTA_LOCATION = "start \"\" \"MTA San Andreas/Multi Theft Auto.exe\"";
 
-int main()
+void run_cmd(const std::string &cmd)
 {
-  mainLoop:
+  std::system(cmd.c_str());
+}
+
+void clear_screen()
+{
+#ifdef _WIN32
+  std::system("cls"); // windows clear command
+#else
+  std::system("clear"); // unix clear command
+#endif
+}
+
+void draw_menu()
+{
+  // clear screen whenever a menu redraw is needed
+  clear_screen();
+
   std::cout << "------------[CLI-SA Launcher]------------" << std::endl;
   std::cout << "-----------------------------------------" << std::endl;
   std::cout << "---------------[1].GTA-SA----------------" << std::endl;
@@ -16,35 +32,36 @@ int main()
   std::cout << "----------------[0].EXIT-----------------" << std::endl;
   std::cout << "-----------------------------------------" << std::endl;
   std::cout << "------------[CLI-SA Launcher]------------" << std::endl;
+}
 
+int main()
+{
+draw:
+  // redraw menu options
+  draw_menu();
+
+  // handle options
   static std::string option;
-  std::cin >> option; 
+  std::cin >> option;
 
-  if (option.length() > 0 && option.length() <= 1)
+  if (option.length() == 1)
   {
-    // TODO: check if option typed is an actual number
-    // if not ignore and redraw the options again
-    // also, make this a switch loop
-    if (option == "1") 
+    switch (option[0])
     {
-      std::system(GTA_LOCATION.c_str());
-      goto exitProgram;
-    }
-    else if (option == "2")
-    {
-      std::system(MTA_LOCATION.c_str());
-      goto exitProgram;
-    }
-    else if (option == "0")
-    {
-      goto exitProgram;
-    }
-    else
-    {
-      goto mainLoop;
+    case '1':
+      run_cmd(GTA_LOCATION);
+      break;
+    case '2':
+      run_cmd(MTA_LOCATION);
+      break;
+    case '0':
+      goto exit;
+    default:
+      goto draw;
+      break;
     }
   }
 
-  exitProgram:
-  exit(0);
+exit:
+  return 0;
 }
