@@ -7,7 +7,7 @@ I've built this mainly to be used on Linux through WINE, but it can be used on W
 
 **NOTE 2**: Make sure to install MTA San Andreas in a folder called: _"MTA San Andreas"_ in the GTA San Andreas executable root folder.
 
-_e.g_: `D:/SteamLibrary/Grand Theft Auto San Andreas/MTA San Andreas`
+_e.g_: `D:/SteamLibrary/steamapps/common/Grand Theft Auto San Andreas/MTA San Andreas`
 
 #### image preview:
 ![preview-image](https://raw.githubusercontent.com/otvv/gta-sa-cli-launcher/main/repo/preview.png)
