@@ -12,12 +12,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    # checkout repo
+    - name: Checkout source code
+      uses: actions/checkout@v4
+
+    # setup cmake
+    - name: Install CMake and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++ build-essential
+
+    # setup the project
+    - name: Configure the project
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+
+    # build the project
+    - name: Build the project
+      run: |
+        cd build
+        cmake --build . --config Release
